@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App should render correctly 1`] = `
+<body>
+  <div>
+    <div
+      class="sc-bdVaJa khUSez"
+    >
+      <h1>
+        Culture Tickets Web Console
+      </h1>
+      <button
+        class="ant-btn"
+        type="button"
+      >
+        <span>
+          Ant Design Button
+        </span>
+      </button>
+    </div>
+  </div>
+</body>
+`;
