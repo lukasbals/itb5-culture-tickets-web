@@ -1,17 +1,25 @@
 import './App.css';
-import { Button } from 'antd';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import CListEvents from './components/CListEvents';
 import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
   text-align: center;
+  padding: 20px;
 `;
 
 function App() {
   return (
     <Container>
       <h1>Culture Tickets Web Console</h1>
-      <Button>Ant Design Button</Button>
+      <Router>
+        <Switch>
+          <Route path="/">
+            <CListEvents/>
+          </Route>
+        </Switch>
+      </Router>
     </Container>
   );
 }
