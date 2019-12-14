@@ -1,7 +1,8 @@
-import { Button, DatePicker, Input, Table } from 'antd';
+import { Button, DatePicker, Input, Table} from 'antd';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import BuyTickets from "./BuyTickets";
 
 const CustomInput = styled(Input)`
   width: 150px;
@@ -14,6 +15,7 @@ class ListEvents extends Component {
     artist: '',
     location: '',
     date: null,
+    selectedEvent : []
   };
 
   onDatePickerChange = date => {
@@ -29,7 +31,19 @@ class ListEvents extends Component {
     this.props.searchForEvents(eventName, artist, location, date);
   };
 
+  handleChange = (event) => {
+    let statusCopy = Object.assign({}, this.state);
+    statusCopy.selectedEvent[0] = event;
+    this.setState(statusCopy);
+    console.log(this.state.selectedEvent);
+  }
+
   render() {
+    if (this.state.selectedEvent.length > 0) {
+        console.log(this.state.selectedEvent);
+      return <BuyTickets selectedEvent={this.state.selectedEvent}/>
+    }
+
     const columns = [
       {
         title: 'Event Name',
@@ -84,7 +98,7 @@ class ListEvents extends Component {
         />
         <DatePicker disabledTime={false} onChange={this.onDatePickerChange} value={this.state.date}/>
         <Button onClick={this.search}>Search</Button>
-        <Table
+        <Table onRowClick={this.handleChange}
           columns={columns}
           dataSource={this.props.events}
           loading={this.props.events === null}
