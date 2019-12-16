@@ -1,14 +1,9 @@
 import React, {Component} from 'react';
-import PropTypes from "prop-types";
 
 
 class BuyTickets extends Component {
     state = {
-        eventName: '',
-        artist: '',
-        location: '',
-        date: null,
-        disabled : true
+        selectedEvent: this.props.selectedEvent
     };
 
     handleSubmit() {
@@ -21,18 +16,45 @@ class BuyTickets extends Component {
             <form onSubmit={this.handleSubmit}>
                 <label>
                     Eventname:
-                    <label>{this.state.eventName}</label>
+                    <label> {this.state.selectedEvent[0].eventName}</label>
                 </label>
+                <br/>
+                <label>
+                    Artist:
+                    <label> {this.state.selectedEvent[0].artists}</label>
+                </label>
+                <br/>
+                <label>
+                    Description:
+                    <label> {this.state.selectedEvent[0].description}</label>
+                </label>
+                <br/>
+                <label>
+                    Category:
+                    <label> {this.state.selectedEvent[0].category}</label>
+                </label>
+                <br/>
+                <label>
+                    Date:
+                    <label> {this.state.selectedEvent[0].date}</label>
+                </label>
+                <br/>
+                <label>
+                    Location:
+                    <label> {this.state.selectedEvent[0].location}</label>
+                </label>
+                <br/>
+                <label>
+                     Minimum Price:
+                    <label> {this.state.selectedEvent[0].minPrice}</label>
+                </label>
+                <br/>
                 <input type="submit" value="Submit" />
             </form>
         );
 
     }
 }
-
-BuyTickets.propTypes = {
-    selectedEvent: PropTypes.arrayOf(PropTypes.object),
-};
 
 
 export default BuyTickets;
