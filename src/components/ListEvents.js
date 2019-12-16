@@ -1,4 +1,5 @@
 import { Button, DatePicker, Input, Table } from 'antd';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styled from 'styled-components';
@@ -33,8 +34,8 @@ class ListEvents extends Component {
     const columns = [
       {
         title: 'Event Name',
-        dataIndex: 'eventName',
-        key: 'eventName',
+        key: 'eventId',
+        render: event => <Link to={`/events/${event.eventId}`}>{event.eventName}</Link>,
       },
       {
         title: 'Artists',
