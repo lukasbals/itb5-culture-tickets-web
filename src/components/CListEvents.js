@@ -14,7 +14,7 @@ class CListEvents extends Component {
   };
 
   getAllEvents = () => {
-    axios.get(BASE_URL + '/searchEvents').then(response => {
+    axios.get(BASE_URL + '/events').then(response => {
       this.setState({ events: response.data });
     });
   };
