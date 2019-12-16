@@ -7,6 +7,10 @@ const Bold = styled.span`
   font-weight: 900;
 `;
 
+const StyledCard = styled(Card)`
+  margin-bottom: 20px;
+`;
+
 class BuyTicket extends Component {
   state = {
     selectedPlaces: {},
@@ -17,7 +21,7 @@ class BuyTicket extends Component {
     if (event.target.checked) {
       tmpSelectedPlaces[event.target.data.placeCategoryId + '_' + event.target.data.placeId] = event.target.data;
     } else {
-      tmpSelectedPlaces[event.target.data.placeCategoryId + '_' + event.target.data.placeId] = null;
+      delete tmpSelectedPlaces[event.target.data.placeCategoryId + '_' + event.target.data.placeId];
     }
     this.setState({ selectedPlaces: tmpSelectedPlaces });
   };
@@ -27,17 +31,20 @@ class BuyTicket extends Component {
     if (tickets && event) {
       return (
         <Row gutter={20}>
-          <Col span={12}>
-            <Card title="Event details">
+          <Col md={12}>
+            <StyledCard title="Event details">
               <p>Name: <Bold>{event.eventName}</Bold></p>
               <p>Category: <Bold>{event.category}</Bold></p>
               <p>Location: <Bold>{event.location}</Bold></p>
               <p>Date: <Bold>{event.date}</Bold></p>
               <p>Description: <Bold>{event.description}</Bold></p>
-            </Card>
+            </StyledCard>
+            <StyledCard title="Address">
+              To be done
+            </StyledCard>
           </Col>
-          <Col span={12}>
-            <Card title="Select places">
+          <Col md={12}>
+            <StyledCard title="Select places">
               {
                 event.placeCategories.map((placeCategory, index) => {
                   return (
@@ -69,7 +76,7 @@ class BuyTicket extends Component {
                   );
                 })
               }
-            </Card>
+            </StyledCard>
           </Col>
         </Row>
       );
