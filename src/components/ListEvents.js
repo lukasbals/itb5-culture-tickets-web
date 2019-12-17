@@ -9,6 +9,14 @@ const CustomInput = styled(Input)`
   margin-right: 20px;
 `;
 
+const CustomButton = styled(Button)`
+  margin-left: 20px;
+`;
+
+const CustomTable = styled(Table)`
+  margin-top: 20px;
+`;
+
 class ListEvents extends Component {
   state = {
     eventName: '',
@@ -84,8 +92,8 @@ class ListEvents extends Component {
           value={this.state.location}
         />
         <DatePicker disabledTime={false} onChange={this.onDatePickerChange} value={this.state.date}/>
-        <Button onClick={this.search}>Search</Button>
-        <Table
+        <CustomButton onClick={this.search}>Search</CustomButton>
+        <CustomTable
           columns={columns}
           dataSource={this.props.events}
           loading={this.props.events === null}
