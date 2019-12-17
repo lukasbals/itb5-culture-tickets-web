@@ -23,17 +23,18 @@ class CBuyTicket extends Component {
     };
 
     getAvailableTickets = () => {
-      axios.get(BASE_URL + `/data/tickets/${this.props.match.params.eventId}`).then(response => {
+      axios.get(BASE_URL + `/events/${this.props.match.params.eventId}/tickets`).then(response => {
         this.setState({ tickets: response.data });
       });
     };
 
     render() {
-      return <BuyTicket event={this.state.event} tickets={this.state.tickets}/>;
+      return <BuyTicket event={this.state.event} history={this.props.history} tickets={this.state.tickets}/>;
     }
 }
 
 CBuyTicket.propTypes = {
+  history: PropTypes.object,
   match: PropTypes.object,
 };
 
