@@ -21,7 +21,7 @@ class CListEvents extends Component {
 
   searchForEvents = (eventName, artist, location, date) => {
     this.setState({ events: null });
-    let url = `/searchEvents?eventName=${eventName}&artist=${artist}&location=${location}`;
+    let url = `/events?eventName=${eventName}&artist=${artist}&location=${location}`;
     if (date) {
       url = url + `&y=${moment(date).format('YYYY')}&m=${moment(date).format('MM')}&d=${moment(date).format('DD')}`;
     }
