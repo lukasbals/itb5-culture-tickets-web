@@ -1,6 +1,8 @@
-import { Button, Card, Checkbox, Col, Form, Input, Row, Spin, message } from 'antd';
+import { BASE_URL } from './constants';
+import { Button, Card, Checkbox, Col, Form, Input, Row, Spin, message, notification } from 'antd';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 
 const Bold = styled.span`
@@ -33,7 +35,48 @@ class BuyTicket extends Component {
 
   handleSubmit = () => {
     this.validate(valid => {
-      console.log(valid);
+      if (!valid) {
+        const seatPlaceReservations = {};
+        Object.keys(this.state.selectedPlaces).forEach((key, i) => {
+          const categoryId = parseInt(key.split('_')[0], 10);
+          const seatNumber = parseInt(key.split('_')[1], 10);
+          if (seatPlaceReservations[categoryId]) {
+            seatPlaceReservations[categoryId].push(seatNumber);
+          } else {
+            seatPlaceReservations[categoryId] = [seatNumber];
+          }
+        });
+        const payload = {
+          ticketDto: {
+            eventId: this.props.event.eventId,
+          },
+          seatPlaceReservations,
+        };
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+        axios.post(BASE_URL + '/buyTicket', payload, config).then(response => {
+          if (response.data) {
+            notification.success({
+              message: 'Successfully bought tickets',
+              description: (
+                <div>
+                  {response.data.map(x => {
+                    return (
+                      <p key={x.id}><Bold>{x.categoryName}</Bold>; Ticket number: <Bold>{x.ticketNumber}</Bold></p>
+                    );
+                  })}
+                </div>
+              ),
+            });
+            this.props.history.push('/');
+          }
+        }).catch(error => {
+          message.error(error.response.data);
+        });
+      }
     });
   };
 
@@ -142,7 +185,10 @@ class BuyTicket extends Component {
                           Array.from(Array(event.placeCategoriesAmount[index])).map((x, i) => {
                             let sold = false;
                             tickets.forEach(ticket => {
-                              if (ticket.categoryId === event.placeCategoriesId[index] && ticket.id === i + 1) {
+                              const ticketSold = (
+                                ticket.categoryId === event.placeCategoriesId[index] && ticket.ticketNumber === i + 1
+                              );
+                              if (ticketSold) {
                                 sold = true;
                               }
                             });
@@ -181,6 +227,7 @@ class BuyTicket extends Component {
 
 BuyTicket.propTypes = {
   event: PropTypes.object,
+  history: PropTypes.object.isRequired,
   tickets: PropTypes.array,
 };
 
