@@ -28,6 +28,7 @@ const initialState = {
   selectedPlaces: {},
   validInputs: false,
   validation: {},
+  buttonLoading: false,
 };
 
 class BuyTicket extends Component {
@@ -36,6 +37,7 @@ class BuyTicket extends Component {
   handleSubmit = () => {
     this.validate(valid => {
       if (valid) {
+        this.setState({ buttonLoading: true });
         const seatPlaceReservations = {};
         Object.keys(this.state.selectedPlaces).forEach(key => {
           const categoryId = parseInt(key.split('_')[0], 10);
@@ -224,7 +226,7 @@ class BuyTicket extends Component {
           <Row>
             <Col span={24} style={{ textAlign: 'right' }}>
               <Button onClick={this.cancel} style={{ marginRight: 20 }}>Cancel</Button>
-              <Button onClick={this.handleSubmit} type="primary">Buy Tickets</Button>
+              <Button loading={this.state.buttonLoading} onClick={this.handleSubmit} type="primary">Buy Tickets</Button>
             </Col>
           </Row>
         </React.Fragment>
