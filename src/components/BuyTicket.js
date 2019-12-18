@@ -35,9 +35,9 @@ class BuyTicket extends Component {
 
   handleSubmit = () => {
     this.validate(valid => {
-      if (!valid) {
+      if (valid) {
         const seatPlaceReservations = {};
-        Object.keys(this.state.selectedPlaces).forEach((key, i) => {
+        Object.keys(this.state.selectedPlaces).forEach(key => {
           const categoryId = parseInt(key.split('_')[0], 10);
           const seatNumber = parseInt(key.split('_')[1], 10);
           if (seatPlaceReservations[categoryId]) {
@@ -49,6 +49,10 @@ class BuyTicket extends Component {
         const payload = {
           ticketDto: {
             eventId: this.props.event.eventId,
+            name: this.state.name,
+            address: this.state.address,
+            zipCity: this.state.zipCity,
+            creditCard: this.state.creditCard,
           },
           seatPlaceReservations,
         };
@@ -71,7 +75,7 @@ class BuyTicket extends Component {
                 </div>
               ),
             });
-            this.props.history.push('/');
+            this.cancel();
           }
         }).catch(error => {
           message.error(error.response.data);
@@ -82,6 +86,11 @@ class BuyTicket extends Component {
 
   handleInput = event => {
     this.setState({ [event.target.name]: event.target.value });
+  };
+
+  cancel = () => {
+    this.setState(initialState);
+    this.props.history.push('/');
   };
 
   validate = callback => {
@@ -166,7 +175,7 @@ class BuyTicket extends Component {
                   validateStatus={validation.creditCard === false ? 'error' : ''}
                 >
                   <Input
-                    addonBefore="Credit number"
+                    addonBefore="Credit card number"
                     name="creditCard"
                     onChange={this.handleInput}
                     placeholder="16 digits number"
@@ -214,7 +223,7 @@ class BuyTicket extends Component {
           </Row>
           <Row>
             <Col span={24} style={{ textAlign: 'right' }}>
-              <Button onClick={this.cancle} style={{ marginRight: 20 }}>Cancel</Button>
+              <Button onClick={this.cancel} style={{ marginRight: 20 }}>Cancel</Button>
               <Button onClick={this.handleSubmit} type="primary">Buy Tickets</Button>
             </Col>
           </Row>
